@@ -19,25 +19,39 @@
 
 using System;
 
-using fixed_t = System.Int32;
-
 namespace Hovertank3DdotNet
 {
     partial class Hovertank
     {
-        class costable_t
+        // as: This is all handled by SfxPlayer / SoundSystem now
+
+        //
+        //	Checks to see if a SoundBlaster is in the system. If the port passed is
+        //		-1, then it scans through all possible I/O locations. If the port
+        //		passed is 0, then it uses the default (2). If the port is >0, then
+        //		it just passes it directly to jmCheckSB()
+        //
+        private bool jmDetectSoundBlaster(short port)
         {
-            public costable_t(fixed_t[] sintable)
-            {
-                _sintable = sintable;
-            }
+            // SoundBlaster detection
+            return true;
+        }
 
-            private fixed_t[] _sintable;
+        private void jmStartSB()
+        {
+            // SoundBlaster startup
+        }
 
-            public fixed_t this[int angle]
-            {
-                get { return _sintable[Hovertank.ANGLES / 4 + angle]; }
-            }
+        private void jmShutSB()
+        {
+            // SoundBlaster shutdown
+        }
+
+        private void jmSetSamplePtr(SampledSound s)
+        {
+            // as: Added initialisation of sampled sounds
+            _sfxPlayer.InitSampledSound(s.Pointer);
         }
     }
+
 }
