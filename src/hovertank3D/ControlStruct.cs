@@ -21,15 +21,12 @@ using System;
 
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    struct ControlStruct
     {
-        public short x;
+        public dirtype dir;
 
-        public short y;
+        public bool button1;
 
-        public override string ToString()
-        {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
-        }
+        public bool button2;
     }
 }

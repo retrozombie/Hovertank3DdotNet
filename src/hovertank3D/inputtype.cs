@@ -21,15 +21,16 @@ using System;
 
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    enum inputtype : short
     {
-        public short x;
+        keyboard,
 
-        public short y;
+        mouse,
 
-        public override string ToString()
-        {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
-        }
+        joystick1,
+
+        joystick2,
+
+        demo
     }
 }

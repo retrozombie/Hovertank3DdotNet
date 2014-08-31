@@ -21,15 +21,24 @@ using System;
 
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    enum dirtype : short
     {
-        public short x;
+        north,
 
-        public short y;
+        northeast,
 
-        public override string ToString()
-        {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
-        }
+        east,
+
+        southeast,
+
+        south,
+
+        southwest,
+
+        west,
+
+        northwest,
+
+        nodir
     }
 }

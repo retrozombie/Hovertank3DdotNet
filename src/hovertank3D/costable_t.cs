@@ -19,17 +19,25 @@
 
 using System;
 
+using fixed_t = System.Int32;
+
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    partial class Hovertank
     {
-        public short x;
-
-        public short y;
-
-        public override string ToString()
+        public class costable_t
         {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
+            public costable_t(fixed_t[] sintable)
+            {
+                _sintable = sintable;
+            }
+
+            private fixed_t[] _sintable;
+
+            public fixed_t this[int angle]
+            {
+                get { return _sintable[Hovertank.ANGLES / 4 + angle]; }
+            }
         }
     }
 }

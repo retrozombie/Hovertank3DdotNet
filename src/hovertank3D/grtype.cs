@@ -21,15 +21,14 @@ using System;
 
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    enum grtype : short
     {
-        public short x;
+        text,
 
-        public short y;
+        CGAgr,
 
-        public override string ToString()
-        {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
-        }
+        EGAgr,
+
+        VGAgr
     }
 }

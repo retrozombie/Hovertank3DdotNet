@@ -21,15 +21,24 @@ using System;
 
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    enum cardtype : short
     {
-        public short x;
+        NOcard,
 
-        public short y;
+        MDAcard,
+        
+        CGAcard,
 
-        public override string ToString()
-        {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
-        }
+        EGAcard,
+        
+        MCGAcard,
+        
+        VGAcard,
+        
+        HGCcard = 0x80,
+        
+        HGCPcard,
+        
+        HICcard
     }
 }

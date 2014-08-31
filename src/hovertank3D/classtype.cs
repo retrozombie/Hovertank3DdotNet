@@ -21,15 +21,30 @@ using System;
 
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    enum classtype : short
     {
-        public short x;
+        nothing,
 
-        public short y;
+        playerobj,
 
-        public override string ToString()
-        {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
-        }
+        refugeeobj,
+
+        droneobj,
+
+        tankobj,
+
+        mutantobj,
+
+        warpobj,
+
+        pshotobj,
+
+        pbigshotobj,
+
+        mshotobj,
+
+        inertobj,
+
+        shieldobj
     }
 }

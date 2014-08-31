@@ -21,15 +21,14 @@ using System;
 
 namespace Hovertank3DdotNet
 {
-    struct tilept
+    enum gunstates : short
     {
-        public short x;
+        rearming,
 
-        public short y;
+        ready,
 
-        public override string ToString()
-        {
-            return string.Concat("x = ", x.ToString(), ", y = ", y.ToString());
-        }
+        charging,
+
+        maxpower
     }
 }
