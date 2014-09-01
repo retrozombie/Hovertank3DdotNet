@@ -1,6 +1,4 @@
-﻿#define DEBUG_INDEX_OUT_OF_RANGE
-
-/* 
+﻿/* 
  * Copyright (C) 2014 Andy Stewart
  *
  * This program is free software; you can redistribute it and/or modify
@@ -17,6 +15,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
+
+#define DEBUG_INDEX_OUT_OF_RANGE
 
 using System;
 
@@ -97,7 +97,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("GetUInt8 Index out of range!");
+                throw new Exception("memptr.GetUInt8 Index out of range!");
 #endif
 
             return _buffer[_baseIndex + offset];
@@ -110,7 +110,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("SetUInt8 Index out of range!");
+                throw new Exception("memptr.SetUInt8 Index out of range!");
 #endif
 
             _buffer[_baseIndex + offset] = value;
@@ -123,7 +123,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("GetInt8 Index out of range!");
+                throw new Exception("memptr.GetInt8 Index out of range!");
 #endif
 
             return (sbyte) _buffer[_baseIndex + offset];
@@ -136,7 +136,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("SetInt8 Index out of range!");
+                throw new Exception("memptr.SetInt8 Index out of range!");
 #endif
 
             _buffer[_baseIndex + offset] = (byte) value;
@@ -149,7 +149,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 1 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("GetUInt16 Index out of range!");
+                throw new Exception("memptr.GetUInt16 Index out of range!");
 #endif
 
             offset += _baseIndex;
@@ -166,7 +166,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 1 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("SetUInt16 Index out of range!");
+                throw new Exception("memptr.SetUInt16 Index out of range!");
 #endif
 
             offset += _baseIndex;
@@ -181,7 +181,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 1 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("GetInt16 Index out of range!");
+                throw new Exception("memptr.GetInt16 Index out of range!");
 #endif
 
             offset += _baseIndex;
@@ -198,7 +198,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 1 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("SetInt16 Index out of range!");
+                throw new Exception("memptr.SetInt16 Index out of range!");
 #endif
 
             offset += _baseIndex;
@@ -213,7 +213,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 3 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("GetUInt32 Index out of range!");
+                throw new Exception("memptr.GetUInt32 Index out of range!");
 #endif
             offset += _baseIndex;
             UInt32 value = _buffer[offset + 3];
@@ -233,7 +233,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 3 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("SetUInt32 Index out of range!");
+                throw new Exception("memptr.SetUInt32 Index out of range!");
 #endif
             offset += _baseIndex;
             _buffer[offset] = (byte) value;
@@ -252,7 +252,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 3 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("GetInt32 Index out of range!");
+                throw new Exception("memptr.GetInt32 Index out of range!");
 #endif
 
             offset += _baseIndex;
@@ -273,7 +273,7 @@ namespace Hovertank3DdotNet
         {
 #if DEBUG_INDEX_OUT_OF_RANGE
             if(_baseIndex + offset < 0 || _baseIndex + offset + 3 >= _buffer.Length)
-                System.Diagnostics.Debug.WriteLine("SetInt32 Index out of range!");
+                throw new Exception("memptr.SetInt32 Index out of range!");
 #endif
 
             offset += _baseIndex;
