@@ -320,18 +320,18 @@ namespace Hovertank3DdotNet
             {
                 px = (ushort) (pxl + 8 * 12);
                 py = (ushort) (pyl + 10 * (1 + i));
-                PPrint(separator); // as: string replacements);
+                PPrint(separator); // as: string replacements
                 printscan(key[i * 2]);
             }
 
             px = (ushort) (pxl + 8 * 12);
             py = (ushort) (pyl + 10 * 5);
-            PPrint(separator); // as: string replacements);
+            PPrint(separator); // as: string replacements
             printscan(keyB1);
 
             px = (ushort) (pxl + 8 * 12);
             py = (ushort) (pyl + 10 * 6);
-            PPrint(separator); // as: string replacements);
+            PPrint(separator); // as: string replacements
             printscan(keyB2);
 
             do
