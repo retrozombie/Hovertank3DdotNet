@@ -899,7 +899,7 @@ namespace Hovertank3DdotNet
         private void ColorBorder(short color)
         {
             // Int 10h, AX=0x1001, BH = color
-            _display.SetColorEGA(Display.BorderColorIndex, (byte) color);
+            _display.SetPaletteColorEGA(Display.BorderColorIndex, (byte) color);
         }
 
         ////////////////////////////////////////////////////////////////////
@@ -926,7 +926,7 @@ namespace Hovertank3DdotNet
 
             Display display = Display;
             for(int n = 0; n < 17; n++)
-                display.SetColorEGA(n, palette[n]);
+                display.SetPaletteColorEGA(n, palette[n]);
         }
 
         private void SetDefaultColors()
