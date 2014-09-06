@@ -366,7 +366,7 @@ namespace Hovertank3DdotNet
                     if((tilemap[xh, nt1] != 0 && tilemap[xh - 1, nt1] == 0) || 
                         (tilemap[xh, nt2] != 0 && tilemap[xh - 1, nt2] == 0))
                     {
-                        obon.x = ((obon.xh & -65536) - (MINDIST + 1));
+                        obon.x = ((obon.xh & -65536) - (MINDIST + 1)); // 0xffff0000
                     }
                 }
             }
@@ -387,7 +387,7 @@ namespace Hovertank3DdotNet
                     if((tilemap[xl, nt1] != 0 && tilemap[xl + 1, nt1] == 0) ||
                         (tilemap[xl, nt2] != 0 && tilemap[xl + 1, nt2] == 0))
                     {
-                        obon.x = (obon.xl & -65536) + TILEGLOBAL + (MINDIST + 1);
+                        obon.x = (obon.xl & -65536) + TILEGLOBAL + (MINDIST + 1); // 0xffff0000
                     }
                 }
             }
@@ -412,7 +412,7 @@ namespace Hovertank3DdotNet
                     if((tilemap[nt1, yh] != 0 && tilemap[nt1, yh - 1] == 0) ||
                         (tilemap[nt2, yh] != 0 && tilemap[nt2, yh - 1] == 0))
                     {
-                        obon.y = (obon.yh & -65536) - (MINDIST + 1);
+                        obon.y = (obon.yh & -65536) - (MINDIST + 1); // 0xffff0000
                     }
                 }
             }
@@ -433,7 +433,7 @@ namespace Hovertank3DdotNet
                     if((tilemap[nt1, yl] != 0 && tilemap[nt1, yl + 1] == 0) ||
                         (tilemap[nt2, yl] != 0 && tilemap[nt2, yl + 1] == 0))
                     {
-                        obon.y = (obon.yl & -65536) + TILEGLOBAL + (MINDIST + 1);
+                        obon.y = (obon.yl & -65536) + TILEGLOBAL + (MINDIST + 1); // 0xffff0000
                     }
                 }
             }
