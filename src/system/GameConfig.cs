@@ -77,7 +77,7 @@ namespace Hovertank3DdotNet
         /// <summary>Gets the volume for playback of speaker sounds.</summary>
         public float SoundSpeakerVolume
         {
-            get { return _config.GetSingle("Sound.SpeakerVolume", 0.0f, 1.0f, 0.25f); }
+            get { return _config.GetSingle("Sound.SpeakerVolume", 0.0f, 1.0f, 0.125f); }
         }
         
         /// <summary>Gets whether to run the game in windowed mode otherwise fullscreen.</summary>
