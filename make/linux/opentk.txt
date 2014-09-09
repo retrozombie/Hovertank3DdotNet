@@ -1,0 +1,10 @@
+-target:exe
+-out:Hovertank3DdotNet_OTK.exe
+-platform:anycpu
+-optimize+
+
+-r:System.dll
+-r:System.Drawing.dll
+-r:OpenTK.dll
+
+../../src/opentk/*.cs
