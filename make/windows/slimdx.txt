@@ -1,0 +1,14 @@
+/utf8output
+/target:winexe
+/out:Hovertank3DdotNet_SDX.exe
+/platform:anycpu
+/resource:..\..\src\slimdx\FormGame.resx
+/optimize+
+
+/lib:C:\Windows\Microsoft.NET\Framework\v2.0.50727\
+/reference:System.dll
+/reference:System.Drawing.dll
+/reference:System.Windows.Forms.dll
+/reference:"C:\Program Files (x86)\SlimDX SDK (January 2012)\Bin\net20\x86\SlimDX.dll"
+
+..\..\src\slimdx\*.cs
