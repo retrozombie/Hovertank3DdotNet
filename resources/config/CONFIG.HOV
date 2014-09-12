@@ -1,0 +1,43 @@
+Hovertank3D.Config
+
+// Whether to run the game in a window (see WindowPosition and WindowSize)
+// 0 = No, 1 = Yes (default)
+Video.Windowed 1
+
+// The position and size for the game window, only active when Windowed is set to 1
+Video.Window.Left 0
+Video.Window.Top 0
+Video.Window.Width 640
+Video.Window.Height 480
+
+// Whether to center the game window (Window.Left and Window.Top are ignored), only active when Windowed is set to 1
+// 0 = No, 1 = Yes (default)
+Video.Window.Center 1
+
+// Whether sound is disabled
+// 0 = Sound enabled (default), 1 = Disabled
+Sound.Disabled 0
+
+// Whether to use speaker emulation mode when the game is started
+// 0 = Sampled sound mode (default), 1 = Speaker emulation mode
+Sound.SpeakerMode 0
+
+// The volume for sampled sounds
+// 0 to 1 (0.75 is default)
+Sound.SampledSoundVolume 0.75
+
+// The volume for speaker sounds
+// 0 to 1 (0.25 is default)
+Sound.SpeakerVolume 0.25
+
+// The index of the joystick / game controller to use
+// 0 = First (default)
+Input.ControllerIndex 0
+
+// The type of filtering to use for the display
+// 0 = Point / Nearest / None (default), 1 = Linear
+Video.Filter 0
+
+// Whether to use VSync
+// 0 = No, 1 = Yes (default)
+Video.VSync 1
