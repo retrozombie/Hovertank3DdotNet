@@ -29,11 +29,11 @@ namespace Hovertank3DdotNet.SlimDX
         /// <summary>The texture for the view.</summary>
         private Texture _viewTexture;
 
+        /// <summary>Whether IntPtrs are 32-bit.</summary>
+        private bool _intPtr32;
+
         /// <summary>The buffer for expanding spans.</summary>
         private int[] _scanBuffer;
-
-        /// <summary>A zero buffer for expanding spans.</summary>
-        private int[] _zeroBuffer;
 
         /// <summary>The view width.</summary>
         private int _viewWidth;
@@ -93,10 +93,7 @@ namespace Hovertank3DdotNet.SlimDX
                 int srcOffset = srcStride - Display.Width;
                 dataRectangle = _viewTexture.LockRectangle(0, LockFlags.Discard);
 
-                byte[] pitch = null;
-                int slack = dataRectangle.Pitch - _textureWidth * 4;
-                if(slack > 0)
-                    pitch = new byte[slack];
+                IntPtr pDest = dataRectangle.Data.DataPointer;
 
                 int srcIndex = display.ScreenStartIndex + display.PixelOffset;
                 for(int y = 0; y < _viewHeight; y++)
@@ -109,19 +106,12 @@ namespace Hovertank3DdotNet.SlimDX
 
                     srcIndex += srcOffset;
 
-                    dataRectangle.Data.WriteRange<int>(_scanBuffer, 0, _viewWidth);
-                    dataRectangle.Data.WriteRange<int>(_zeroBuffer, 0, _textureWidth - _viewWidth);
+                    Marshal.Copy(_scanBuffer, 0, pDest, _viewWidth);
 
-                    if(pitch != null)
-                        dataRectangle.Data.WriteRange<byte>(pitch, 0, pitch.Length);
-                }
-
-                for(int y = 0; y < _textureHeight - _viewHeight; y++)
-                {
-                    dataRectangle.Data.WriteRange<int>(_zeroBuffer, 0, _zeroBuffer.Length);
-
-                    if(pitch != null)
-                        dataRectangle.Data.WriteRange<byte>(pitch, 0, pitch.Length);
+                    if(_intPtr32)
+                        pDest = new IntPtr(pDest.ToInt32() + dataRectangle.Pitch);
+                    else
+                        pDest = new IntPtr(pDest.ToInt64() + dataRectangle.Pitch);
                 }
             }
             catch
@@ -185,8 +175,9 @@ namespace Hovertank3DdotNet.SlimDX
 
             if(_scanBuffer == null)
             {
+                _intPtr32 = (IntPtr.Size == sizeof(Int32));
+
                 _scanBuffer = new int[_viewWidth];
-                _zeroBuffer = new int[_textureWidth];
 
                 int vertexColor = -1;
                 float height = device.Viewport.Height;

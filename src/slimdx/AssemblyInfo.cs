@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Hovertank3DdotNet_SDX")]
-[assembly: AssemblyDescription("C# port of Hovertank 3-D.")]
+[assembly: AssemblyDescription("C# port of Hovertank 3-D (SlimDX).")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Hovertank3DdotNet_SlimDX")]

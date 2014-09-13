@@ -20,7 +20,7 @@ using System;
 using System.Windows.Forms;
 using SlimDX.Windows;
 
-namespace Hovertank3DdotNet
+namespace Hovertank3DdotNet.SlimDX
 {
     static class Program
     {
@@ -33,7 +33,7 @@ namespace Hovertank3DdotNet
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-			using(SlimDX.FormGame gameForm = new SlimDX.FormGame())
+			using(FormGame gameForm = new FormGame())
 			{
 				gameForm.InitialiseGame();
 				MessagePump.Run(gameForm, gameForm.UpdateGame);
@@ -47,18 +47,6 @@ namespace Hovertank3DdotNet
         public static string[] CommandLineArguments
         {
             get { return Program._commandLineArguments; }
-        }
-
-        /// <summary>Returns the index of the specified command line argument.</summary>
-        /// <param name="argument">The argument to find.</param>
-        /// <returns>The index of the argument or -1 if it is not present.</returns>
-        public static int IndexOfCommandLineArgument(string argument)
-        {
-            for(int i = 0; i < _commandLineArguments.Length; i++)
-                if(string.Compare(_commandLineArguments[i], argument, StringComparison.OrdinalIgnoreCase) == 0)
-                    return i;
-
-            return -1;
         }
        
     }

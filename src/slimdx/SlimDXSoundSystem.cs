@@ -81,7 +81,7 @@ namespace Hovertank3DdotNet.SlimDX
 
             SoundBufferDescription soundBufferDescription = new SoundBufferDescription();
             soundBufferDescription.Format = waveFormat;
-            soundBufferDescription.Flags = BufferFlags.ControlVolume | BufferFlags.ControlFrequency; // TODO
+            soundBufferDescription.Flags = BufferFlags.ControlVolume;
             soundBufferDescription.SizeInBytes = samples.Length;
 
             SecondarySoundBuffer secondarySoundBuffer = new SecondarySoundBuffer(_directSound, soundBufferDescription);
