@@ -23,7 +23,7 @@ Using explorer navigate to the windows make folder: *\make\windows*
 
 ###OpenTK
 
-1. Install OpenTK: http://www.opentk.com/ and make a note of the intallation path.
+1. Install OpenTK: http://www.opentk.com/ and make a note of the installation path.
 
 2. It may be necessary to edit *make_opentk.bat* and change the path. The path expected by the batch file is: *C:\Users\%USERNAME%\Documents\OpenTK\1.1\Binaries\OpenTK\Release\OpenTK.dll*
 
@@ -54,7 +54,7 @@ Install Mono if necessary.
 
 1. Get the OpenTK binaries from SourceForge: http://sourceforge.net/projects/opentk/files/opentk/opentk-1.1/.
 
-2. Unzip and copy the files *OpenTK.dll* and *OpenTK.dll.config* from */Binaries/OpenTK/Release/* to the ```/make/linux``` folder.
+2. Unzip and copy the files *OpenTK.dll* and *OpenTK.dll.config* from */Binaries/OpenTK/Release/* to the */make/linux* folder.
 
 3. In a terminal, run the shell script: ```./make_opentk.sh```
 
