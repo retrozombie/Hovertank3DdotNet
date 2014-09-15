@@ -1,0 +1,17 @@
+/utf8output
+/target:winexe
+/out:Hovertank3DdotNet_#DX.exe
+/platform:anycpu
+/resource:..\..\src\sharpdx\FormGame.resx
+/optimize+
+
+/lib:C:\Windows\Microsoft.NET\Framework\v2.0.50727\
+/reference:System.dll
+/reference:System.Drawing.dll
+/reference:System.Windows.Forms.dll
+/reference:SharpDX.dll
+/reference:SharpDX.DirectSound.dll
+/reference:SharpDX.DirectInput.dll
+/reference:SharpDX.Direct3D9.dll
+
+..\..\src\sharpdx\*.cs

@@ -22,11 +22,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
-using SlimDX;
-using SlimDX.Windows;
-using SlimDX.Direct3D9;
+using SharpDX.Windows;
+using SharpDX.Direct3D9;
+using SharpDX;
 
-namespace Hovertank3DdotNet.SlimDX
+namespace Hovertank3DdotNet.SharpDX
 {
     /// <summary>The form that hosts the game view.</summary>
     partial class FormGame : RenderForm
@@ -113,10 +113,7 @@ namespace Hovertank3DdotNet.SlimDX
         /// <param name="vsync">Whether to use vsync.</param>
         private void InitialiseDirect3D(bool windowed, bool vsync)
         {
-            _presentParameters = new PresentParameters();
-            _presentParameters.BackBufferWidth = ClientSize.Width;
-            _presentParameters.BackBufferHeight = ClientSize.Height;
-            _presentParameters.AutoDepthStencilFormat = Format.D16;
+            _presentParameters = new PresentParameters(ClientSize.Width, ClientSize.Height);
             _presentParameters.Windowed = windowed;
 
             if(vsync)
@@ -180,7 +177,7 @@ namespace Hovertank3DdotNet.SlimDX
                     return;
                 }
 
-                _device.Clear(ClearFlags.Target, new Color4(1.0f, 0.0f, 0.0f, 0.0f), 1.0f, 0);
+                _device.Clear(ClearFlags.Target, new ColorBGRA(0.0f, 0.0f, 0.0f, 1.0f), 1.0f, 0);
                 _device.BeginScene();
 
                 _renderer.Render(_device);
@@ -188,9 +185,9 @@ namespace Hovertank3DdotNet.SlimDX
                 _device.EndScene();
                 _device.Present();
             }
-            catch(Direct3D9Exception dex)
+            catch(SharpDXException dex)
             {
-                if(Result.Last.Code == ResultCode.DeviceLost.Code)
+                if(dex.ResultCode == ResultCode.DeviceLost)
                     _deviceLost = true;
                 else
                     System.Diagnostics.Debug.WriteLine("Caught Direct3D9 exception during Render: " + dex);
@@ -203,18 +200,18 @@ namespace Hovertank3DdotNet.SlimDX
         }
 
         /// <summary>The system.</summary>
-        private SlimDXSys _sys;
+        private SharpDXSys _sys;
 
         /// <summary>The renderer.</summary>
         private DX9SoftwareRenderer _renderer;
 
         /// <summary>The input systen.</summary>
-        private SlimDXInputSystem _input;
+        private SharpDXInputSystem _input;
 
         /// <summary>Initialises the game.</summary>
         public void InitialiseGame()
         {
-            _sys = new SlimDXSys(Program.CommandLineArguments);
+            _sys = new SharpDXSys(Program.CommandLineArguments);
 
             bool windowed = _sys.GameConfig.VideoWindowed;
             
@@ -251,7 +248,7 @@ namespace Hovertank3DdotNet.SlimDX
                     left = _sys.GameConfig.VideoWindowLeft(screen.Bounds.Right - 32);
                     top = _sys.GameConfig.VideoWindowTop(screen.Bounds.Bottom - 32);
                 }
-                Location = new Point(left, top);
+                Location = new System.Drawing.Point(left, top);
             }
 
             bool vsync = _sys.GameConfig.VideoVSync;
@@ -269,11 +266,11 @@ namespace Hovertank3DdotNet.SlimDX
             _hovertank.StateInitialise();
             _disposableResources.Add(_sys);
 
-            SoundSystem soundSystem = new SlimDXSoundSystem(this);
+            SoundSystem soundSystem = new SharpDXSoundSystem(this);
             _sys.InitialiseSound(soundSystem);
             _disposableResources.Add(soundSystem); // Note: The sound system needs to be disposed after sys
 
-            _input = new SlimDXInputSystem(this);
+            _input = new SharpDXInputSystem(this);
             _sys.InitialiseInput(_input);
             _disposableResources.Add(_input);
 
@@ -317,7 +314,7 @@ namespace Hovertank3DdotNet.SlimDX
                     System.Diagnostics.Debug.WriteLine(ex);
 
                     MessageBox.Show(this, "A fatal error occurred:\n" + ex.Message,
-                        "Hovertank3DdotNet (SlimDX)", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        "Hovertank3DdotNet (SharpDX)", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                     Close();
                     return;

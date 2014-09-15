@@ -45,6 +45,20 @@ Using explorer navigate to the windows make folder: *\make\windows*
 
 4. Copy the default configuration file *\resources\config\CONFIG.HOV* to the hovertank game folder.
 
+###SharpDX
+
+1. Download SharpDX (2.6.2) from: http://sharpdx.org/download/
+
+2. Unzip the contents (self extracting 7z archive).
+
+3. From *\Bin\DirectX11-net20* copy the files *SharpDX.Direct3D9.dll, SharpDX.DirectInput.dll, SharpDX.DirectSound.dll, SharpDX.dll* to the batch file's directory.
+
+4. Double-click the batch file: ```make_sharpdx.bat```
+
+5. Copy the *.exe* and *.dll* files to the hovertank game folder.
+
+6. Copy the default configuration file *\resources\config\CONFIG.HOV* to the hovertank game folder.
+
 Linux
 -----
 
