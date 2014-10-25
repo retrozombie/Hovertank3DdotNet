@@ -118,6 +118,16 @@ namespace Hovertank3DdotNet
             if(_sys.IndexOfCommandLineArgument("NOBLASTER") != -1)
                 _sfxPlayer.SpeakerMode = true;
 
+            // as: Support for extra sound effects
+            if(_sys.FileExists("SOUNDLNK.HOV"))
+            {
+                memptr soundLinksPtr;
+                LoadIn("SOUNDLNK.HOV", out soundLinksPtr);
+
+                for(int n = 0; n < SNDEX_NUMSOUNDS; n++)
+                    _sfxPlayer.SoundLinks[n] = soundLinksPtr.GetUInt8(n);
+            }
+
             if(soundblaster)
             {
                 memptr baseptr;
@@ -1175,7 +1185,8 @@ namespace Hovertank3DdotNet
 
             if(keydown[0x57]) // DEBUG!
             {
-                DamagePlayer();
+                // as: Support for extra sound effects
+                DamagePlayer(TAKEDAMAGESND);
                 ClearKeys();
             }
 
@@ -2274,7 +2285,7 @@ namespace Hovertank3DdotNet
             if(keydown[0x1f]) // S = shield point
             {
                 screenofs = 0;
-                HealPlayer();
+                HealPlayer(ARMORUPSND);
             }
             else if(keydown[0x14]) // T = free time
             {
@@ -2844,6 +2855,14 @@ namespace Hovertank3DdotNet
             PPrintInt(savedcount);
             PPrint(_strings[Strings.BaseScreen3]); // as: string replacements
             PPrintInt(killedcount);
+
+            // as: Enemy stats
+            py += 5;
+            PPrint(_strings[Strings.BaseScreen9]); // as: string replacements
+            PPrintInt(enemiesKilled);
+            PPrint(_strings[Strings.BaseScreen10]); // as: string replacements
+            PPrintInt(totalEnemies);
+
             _stateBaseScreen3.topofs = screenofs;
 
             py += 5;
@@ -3021,7 +3040,7 @@ namespace Hovertank3DdotNet
             {
                 score -= 10000;
                 DrawScore();
-                HealPlayer();
+                HealPlayer(ARMORUPSND);
 
                 if(NBKascii != 27)
                 {

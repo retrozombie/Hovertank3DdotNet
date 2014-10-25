@@ -35,6 +35,31 @@ namespace Hovertank3DdotNet
             SpeakerVolume = 0.25f;
             SpeakerSampleFrequency = 44100;
             SpeakerSampleAmplitude = 0.5f;
+
+            // as: Support for extra sound effects
+            _soundLinks = new byte[Hovertank.SNDEX_NUMSOUNDS];
+            for(byte i = 0; i < 21; i++)
+                _soundLinks[i] = i;
+
+            // Link new sounds to originals
+            _soundLinks[Hovertank.SNDEX_DRONEDAMAGE] = (byte) Hovertank.TAKEDAMAGESND;
+            _soundLinks[Hovertank.SNDEX_DRONEDIE] = (byte) Hovertank.SHOOTTHINGSND;
+            _soundLinks[Hovertank.SNDEX_TANKFIRE] = (byte) Hovertank.FIRESND;
+            _soundLinks[Hovertank.SNDEX_TANKDAMAGE] = (byte) Hovertank.TAKEDAMAGESND;
+            _soundLinks[Hovertank.SNDEX_TANKDIE] = (byte) Hovertank.SHOOTTHINGSND;
+            _soundLinks[Hovertank.SNDEX_LASTDEAD1] = (byte) Hovertank.WARPGATESND;
+            _soundLinks[Hovertank.SNDEX_LASTDEAD2] = (byte) Hovertank.WARPGATESND;
+            _soundLinks[Hovertank.SNDEX_LASTDEAD3] = (byte) Hovertank.WARPGATESND;
+            _soundLinks[Hovertank.SNDEX_LASTDEAD4] = (byte) Hovertank.WARPGATESND;
+            _soundLinks[Hovertank.SNDEX_SAVHOSTAGE2] = (byte) Hovertank.SAVEHOSTAGESND;
+            _soundLinks[Hovertank.SNDEX_LSTHOSTAGE2] = (byte) Hovertank.LASTHOSTAGESND;
+            _soundLinks[Hovertank.SNDEX_HSTAGEDEAD2] = (byte) Hovertank.HOSTAGEDEADSND;
+            _soundLinks[Hovertank.SNDEX_HSTAGEDEAD3] = (byte) Hovertank.HOSTAGEDEADSND;
+            _soundLinks[Hovertank.SNDEX_HSTAGEDEAD4] = (byte) Hovertank.HOSTAGEDEADSND;
+            _soundLinks[Hovertank.SNDEX_FIRE2] = (byte) Hovertank.FIRESND;
+            _soundLinks[Hovertank.SNDEX_PSHOTWALL] = (byte) Hovertank.SHOOTWALLSND;
+            _soundLinks[Hovertank.SNDEX_PSHOTWALL2] = (byte) Hovertank.SHOOTWALLSND;
+            _soundLinks[Hovertank.SNDEX_SHIELDUP] = (byte) Hovertank.ARMORUPSND;
         }
 
         /// <summary>Initialises the SfxPlayer.</summary>
@@ -93,12 +118,33 @@ namespace Hovertank3DdotNet
         /// <summary>The list of sampled sounds.</summary>
         private List<SoundSystem.Sound> _sampledSounds;
 
+        /// <summary>The table of linked sounds.</summary>
+        private byte[] _soundLinks;
+
+        /// <summary>Gets the sound links array.</summary>
+        public byte[] SoundLinks
+        {
+            get { return _soundLinks; }
+        }
+
         /// <summary>Initialises the sampled sound player.</summary>
         /// <param name="sampledSoundsPointer">The pointer to the sampled sounds data.</param>
         public void InitSampledSound(memptr sampledSoundsPointer)
         {
+            int count = 0;
+            bool[] soundUsed = new bool[_soundLinks.Length];
             for(int i = MinSoundIndex; i <= MaxSoundIndex; i++)
-                _sampledSounds.Add(CreateSampledSound(sampledSoundsPointer, i));
+            {
+                int soundIndex = _soundLinks[i];
+                if(!soundUsed[soundIndex])
+                {
+                    soundUsed[soundIndex] = true;
+                    count++;
+                }
+            }
+
+            for(int i = 0; i < count; i++)
+                _sampledSounds.Add(CreateSampledSound(sampledSoundsPointer, MinSoundIndex + i));
         }
 
         /// <summary>Creates a sampled sound.</summary>
@@ -119,8 +165,20 @@ namespace Hovertank3DdotNet
         /// <param name="speakerSoundsPointer">The pointer to the speaker sounds data.</param>
         public void InitSpeakerSound(memptr speakerSoundsPointer)
         {
+            int count = 0;
+            bool[] soundUsed = new bool[_soundLinks.Length];
             for(int i = MinSoundIndex; i <= MaxSoundIndex; i++)
-                _speakerSounds.Add(CreateSpeakerSound(speakerSoundsPointer, i));
+            {
+                int soundIndex = _soundLinks[i];
+                if(!soundUsed[soundIndex])
+                {
+                    soundUsed[soundIndex] = true;
+                    count++;
+                }
+            }
+
+            for(int i = 0; i < count; i++)
+                _speakerSounds.Add(CreateSpeakerSound(speakerSoundsPointer, MinSoundIndex + i));
         }
 
         /// <summary>Creates the intro sound.</summary>
@@ -268,7 +326,7 @@ namespace Hovertank3DdotNet
         /// <summary>Gets the index of the last sound.</summary>
         public int MaxSoundIndex
         {
-            get { return 20; }
+            get { return _soundLinks.Length - 1; }
         }
 
         /// <summary>Converts a sample sound in U8 format to S16 format.</summary>

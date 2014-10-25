@@ -38,19 +38,50 @@ namespace Hovertank3DdotNet
                 _resourceProvider = resourceProvider;
             }
             else
-            {   // Resources provided by the file system
-                _resourceProvider = new FileResourceProvider();
-
-                // Check for -gamedir
-                int index = IndexOfCommandLineArgument("-gamedir");
-                if(index != -1 && index + 1 < _commandLineArguments.Length)
+            {
+                int rpkFileIndex = -1;
+                rpkFileIndex = IndexOfCommandLineArgument("-rpk");
+                if(rpkFileIndex != -1)
                 {
-                    string path = _commandLineArguments[index + 1];
+                    rpkFileIndex++;
 
-                    if(!Directory.Exists(path))
-                        throw new DirectoryNotFoundException("The path specified by -gamedir does not exist!");
+                    if(rpkFileIndex == _commandLineArguments.Length)
+                        throw new Exception("The RPK file was not specified after the -rpk command!");
 
-                    _gameDirectory = path;
+                    if(!File.Exists(_commandLineArguments[rpkFileIndex]))
+                        throw new FileNotFoundException("The RPK file specified by -rpk does not exist!");
+                }
+                else
+                {
+                    for(int i = 0; i < _commandLineArguments.Length; i++)
+                    {
+                        if(string.Compare(Path.GetExtension(_commandLineArguments[i]), ".rpk", StringComparison.OrdinalIgnoreCase) == 0)
+                        {
+                            rpkFileIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                if(rpkFileIndex != -1)
+                {   // RPK file specified
+                    _resourceProvider = new RPKResourceProvider(File.ReadAllBytes(_commandLineArguments[rpkFileIndex]));
+                }
+                else
+                {   // Resources provided by the file system
+                    _resourceProvider = new FileResourceProvider();
+
+                    // Check for -gamedir
+                    int index = IndexOfCommandLineArgument("-gamedir");
+                    if(index != -1 && index + 1 < _commandLineArguments.Length)
+                    {
+                        string path = _commandLineArguments[index + 1];
+
+                        if(!Directory.Exists(path))
+                            throw new DirectoryNotFoundException("The path specified by -gamedir does not exist!");
+
+                        _gameDirectory = path;
+                    }
                 }
             }
             

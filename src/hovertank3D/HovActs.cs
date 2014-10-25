@@ -118,7 +118,11 @@ namespace Hovertank3DdotNet
         */
         private void GetRefugee(objtype hit)
         {
-            PlaySound(SAVEHOSTAGESND);
+            // as: Support for extra sound effects
+            if(hit.temp1 == MAN1PIC)
+                PlaySound(SAVEHOSTAGESND);
+            else
+                PlaySound(SNDEX_SAVHOSTAGE2); // SAVEHOSTAGESND
 
             hit._class = classtype.nothing;
             
@@ -130,7 +134,12 @@ namespace Hovertank3DdotNet
             savedcount++;
             if(--numrefugees == 0)
             {
-                PlaySound(LASTHOSTAGESND);
+                // as: Support for extra sound effects
+                if(hit.temp1 == MAN1PIC)
+                    PlaySound(LASTHOSTAGESND);
+                else
+                    PlaySound(SNDEX_LSTHOSTAGE2); // LASTHOSTAGESND
+
                 SpawnWarp(warpx, warpy);
             }
         }
@@ -178,11 +187,16 @@ namespace Hovertank3DdotNet
                     DrawPic(14, 40, REARMINGPIC);
                     guncount = 0;
 
-                    SpawnShot(obon.x, obon.y, obon.angle, (classtype) 
-                        (classtype.pshotobj + (short) (gunstate - gunstates.charging)));
+                    classtype shotType = (classtype) (classtype.pshotobj + (short) (gunstate - gunstates.charging));
+                    SpawnShot(obon.x, obon.y, obon.angle, shotType);
 
                     gunstate = gunstates.rearming;
-                    PlaySound(FIRESND);
+
+                    // as: Support for extra sound effects
+                    if(shotType == classtype.pshotobj)
+                        PlaySound(FIRESND);
+                    else
+                        PlaySound(SNDEX_FIRE2);
                 }
         }
 
@@ -193,9 +207,10 @@ namespace Hovertank3DdotNet
         =
         ===================
         */
-        private void DamagePlayer()
+        private void DamagePlayer(ushort sound)
         {
-            PlaySound(TAKEDAMAGESND);
+            // as: Support for extra sound effects
+            PlaySound(sound); // TAKEDAMAGESND
 
             if(godmode == 0 && --objlist[0].hitpoints == 0)
             {
@@ -216,9 +231,10 @@ namespace Hovertank3DdotNet
             bordertime = 60;
         }
 
-        private void HealPlayer()
+        private void HealPlayer(ushort sound)
         {
-            PlaySound(ARMORUPSND);
+            // as: Support for extra sound effects
+            PlaySound(sound); // ARMORUPSND
 
             if(objlist[0].hitpoints < 3)
                 objlist[0].hitpoints++;
@@ -366,7 +382,8 @@ namespace Hovertank3DdotNet
                         case classtype.shieldobj:
                             obon.CopyTo(objlist[0]);
 
-                            HealPlayer();
+                            // as: Support for extra sound effects
+                            HealPlayer(SNDEX_SHIELDUP); // ARMORUPSND
 
                             objlist[0].CopyTo(obon);
 
@@ -459,7 +476,15 @@ namespace Hovertank3DdotNet
         */
         private void ExplodeShot()
         {
-            PlaySound(SHOOTWALLSND);
+            // as: Support for extra sound effects
+            ushort sound = SNDEX_TSHOTWALL;
+            if(obon._class == classtype.pshotobj)
+                sound = SNDEX_PSHOTWALL;
+            else if(obon._class == classtype.pbigshotobj)
+                sound = SNDEX_PSHOTWALL2;
+
+            PlaySound(sound); // SHOOTWALLSND
+
             obon._class = classtype.inertobj;
             obon.shapenum = obon.temp1 = SHOTDIE1PIC;
             obon.think = ExplodeThink;
@@ -592,14 +617,16 @@ namespace Hovertank3DdotNet
                             case classtype.playerobj:
                                 if(obon._class == classtype.mshotobj)
                                 {
-                                    DamagePlayer();
+                                    // as: Support for extra sound effects
+                                    DamagePlayer(SNDEX_TANKDAMAGE);
                                     obon._class = classtype.nothing;
                                     return;
                                 }
                                 break;
 
                             case classtype.refugeeobj:
-                                KillRefugee(check);
+                                // as: Support for extra sound effects
+                                KillRefugee(check, obon._class != classtype.mshotobj);
 
                                 if(obon._class == classtype.pbigshotobj)
                                     break;
@@ -794,9 +821,23 @@ namespace Hovertank3DdotNet
         =
         ===================
         */
-        private void KillRefugee(objtype hit)
+        private void KillRefugee(objtype hit, bool player)
         {
-            PlaySound(HOSTAGEDEADSND);
+            // as: Support for extra sound effects
+            ushort sound = HOSTAGEDEADSND;
+            if(player)
+            {
+                if(hit.temp1 == MAN1PIC)
+                    sound = SNDEX_HSTAGEDEAD3;
+                else
+                    sound = SNDEX_HSTAGEDEAD4;
+            }
+            else
+            {
+                if(hit.temp1 != MAN1PIC)
+                    sound = SNDEX_HSTAGEDEAD2;
+            }
+            PlaySound(sound); // HOSTAGEDEADSND
 
             if(hit.radarx != 0)
                 XPlot(hit.radarx, hit.radary, hit.radarcolor);
@@ -806,7 +847,23 @@ namespace Hovertank3DdotNet
             DrawPic((ushort) (2 * (totalrefugees - killedcount) + 1), 6, DEADGUYPIC);
             if(--numrefugees == 0)
             {
-                PlaySound(WARPGATESND);
+                // as: Support for extra sound effects
+                if(player)
+                {
+                    if(hit.temp1 == MAN1PIC)
+                        sound = SNDEX_LASTDEAD3;
+                    else
+                        sound = SNDEX_LASTDEAD4;
+                }
+                else
+                {
+                    if(hit.temp1 == MAN1PIC)
+                        sound = SNDEX_LASTDEAD1;
+                    else
+                        sound = SNDEX_LASTDEAD2;
+                }
+                PlaySound(sound); // WARPGATESND
+
                 SpawnWarp(warpx, warpy);
             }
 
@@ -868,7 +925,10 @@ namespace Hovertank3DdotNet
         */
         private void SpawnDrone(fixed_t gx, fixed_t gy)
         {
-            FindFreeObj();
+            // as: Enemy stats
+            totalEnemies++;
+
+            short newIndex = FindFreeObj();
             _new.x = gx;
             _new.y = gy;
             _new.angle = 0;
@@ -879,7 +939,7 @@ namespace Hovertank3DdotNet
             _new.hitpoints = 2;
             _new.shapenum = DRONE1PIC;
             _new.ticcount = (short) Rnd(DRONEANM * 3);
-            _new.temp1 = (short) 0; // will hunt first think
+            _new.temp1 = newIndex; // will hunt first think
             CalcBoundsNew();
         }
 
@@ -892,7 +952,11 @@ namespace Hovertank3DdotNet
         */
         private void KillDrone(objtype hit)
         {
-            PlaySound(SHOOTTHINGSND);
+            // as: Enemy stats
+            enemiesKilled++;
+
+            // as: Support for extra sound effects
+            PlaySound(SNDEX_DRONEDIE); // SHOOTTHINGSND
 
             if(hit.radarx != 0)
                 XPlot(hit.radarx, hit.radary, hit.radarcolor);
@@ -969,12 +1033,17 @@ namespace Hovertank3DdotNet
                     switch(check._class)
                     {
                         case classtype.playerobj: // kill player and blow up
-                            DamagePlayer();
+                            // as: Support for extra sound effects
+                            DamagePlayer(SNDEX_DRONEDAMAGE);
 
-                            PlaySound(SHOOTTHINGSND);
+                            // as: Support for extra sound effects
+                            PlaySound(SNDEX_DRONEDIE); // SHOOTTHINGSND
 
                             if(obon.radarx != 0)
                                 XPlot(obon.radarx, obon.radary, obon.radarcolor);
+
+                            // as: Enemy stats
+                            enemiesKilled++;
 
                             obon.radarcolor = 0;
                             obon._class = classtype.inertobj;
@@ -984,7 +1053,8 @@ namespace Hovertank3DdotNet
                             return;
 
                         case classtype.refugeeobj:
-                            KillRefugee(check);
+                            // as: Support for extra sound effects
+                            KillRefugee(check, false);
                             break;
                     }
                 }
@@ -1008,6 +1078,9 @@ namespace Hovertank3DdotNet
         */
         private void SpawnTank(fixed_t gx, fixed_t gy)
         {
+            // as: Enemy stats
+            totalEnemies++;
+
             FindFreeObj();
             _new.x = gx;
             _new.y = gy;
@@ -1030,7 +1103,11 @@ namespace Hovertank3DdotNet
         */
         private void KillTank(objtype hit)
         {
-            PlaySound(SHOOTTHINGSND);
+            // as: Enemy stats
+            enemiesKilled++;
+
+            // as: Support for extra sound effects
+            PlaySound(SNDEX_TANKDIE); // SHOOTTHINGSND
             
             if(hit.radarx != 0)
                 XPlot(hit.radarx, hit.radary, hit.radarcolor);
@@ -1146,7 +1223,8 @@ namespace Hovertank3DdotNet
                         goto cantshoot; // shot is blocked
                 }
 
-                PlaySound(FIRESND);
+                // as: Support for extra sound effects
+                PlaySound(SNDEX_TANKFIRE); // FIRESND
                 SpawnShot(obon.x, obon.y, obon.angle, classtype.mshotobj);
                 obon.ticcount = 0;
                 obon.stage = 1;
@@ -1240,6 +1318,9 @@ namespace Hovertank3DdotNet
         */
         private void SpawnMutant(fixed_t gx, fixed_t gy)
         {
+            // as: Enemy stats
+            totalEnemies++;
+
             FindFreeObj();
             _new.x = gx;
             _new.y = gy;
@@ -1263,7 +1344,11 @@ namespace Hovertank3DdotNet
         */
         private void KillMutant(objtype hit)
         {
-            PlaySound(SHOOTTHINGSND);
+            // as: Enemy stats
+            enemiesKilled++;
+
+            // as: Support for extra sound effects
+            PlaySound(SNDEX_MUTEDIE); // SHOOTTHINGSND
 
             if(hit.radarx != 0)
                 XPlot(hit.radarx, hit.radary, hit.radarcolor);
@@ -1509,7 +1594,8 @@ namespace Hovertank3DdotNet
                 obon.stage = 4;
                 obon.ticcount = 0;
                 obon.shapenum = MUTANTHITPIC;
-                DamagePlayer();
+                // as: Support for extra sound effects
+                DamagePlayer(SNDEX_MUTEDAMAGE);
             }
             else
             {

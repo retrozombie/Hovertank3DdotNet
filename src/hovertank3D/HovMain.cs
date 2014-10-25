@@ -71,6 +71,8 @@ namespace Hovertank3DdotNet
                     // Warp colors
                     for(int i = 0; i < cyclecolors.Length; i++)
                         cyclecolors[i] = (short) config.GetInt32("cyclecolors" + i, 0, 15, cyclecolors[i]);
+
+                    barColor = (byte) config.GetInt32("barColor", 0, 15, 15);
                 }
                 else
                 {
@@ -255,7 +257,7 @@ namespace Hovertank3DdotNet
             if(keydown[0x1f]) // S = shield point
             {
                 screenofs = 0;
-                HealPlayer();
+                HealPlayer(ARMORUPSND);
             }
             else if(keydown[0x14]) // T = free time
             {
@@ -1340,6 +1342,16 @@ namespace Hovertank3DdotNet
             // as: Enable speaker mode when NOBLASTER command is specified
             if(_sys.IndexOfCommandLineArgument("NOBLASTER") != -1)
                 _sfxPlayer.SpeakerMode = true;
+
+            // as: Support for extra sound effects
+            if(_sys.FileExists("SOUNDLNK.HOV"))
+            {
+                memptr soundLinksPtr;
+                LoadIn("SOUNDLNK.HOV", out soundLinksPtr);
+
+                for(int n = 0; n < SNDEX_NUMSOUNDS; n++)
+                    _sfxPlayer.SoundLinks[n] = soundLinksPtr.GetUInt8(n);
+            }
 
             if(soundblaster)
             {

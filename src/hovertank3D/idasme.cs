@@ -165,7 +165,7 @@ namespace Hovertank3DdotNet
             for(int i = 0; i < height; i++)
             {
                 for(int j = 0; j < wide; j++)
-                    videoBuffer[dstIndex++] = 15;
+                    videoBuffer[dstIndex++] = barColor;
 
                 dstIndex += stride;
             }

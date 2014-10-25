@@ -690,6 +690,11 @@ namespace Hovertank3DdotNet
             int debugLoop = 0;
             do // while ( tile.x != right.x || tile.y != right.y)
             {
+                // FIXME as: prevent an infinite loop
+                debugLoop++;
+                if(debugLoop == 1000)
+                    throw new Exception("FollowWalls: Infinite loop!");
+
                 //
                 // check for conditions that shouldn't happed...
                 //
@@ -771,11 +776,6 @@ namespace Hovertank3DdotNet
 
                     continue;
                 }
-
-                // FIXME as: prevent an infinite loop (Demon Hunter Level 20)
-                debugLoop++;
-                if(debugLoop == 1000)
-                    throw new Exception("FollowWalls: Infinite loop!");
 
             } while(tile.x != right.x || tile.y != right.y);
 

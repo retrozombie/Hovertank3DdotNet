@@ -54,6 +54,8 @@ namespace Hovertank3DdotNet
 
         private sbyte keyB2;
 
+        public byte barColor = 15; // as: modified games
+
         //=========================================================================
 
         ////////////////
@@ -585,7 +587,7 @@ namespace Hovertank3DdotNet
         {
             NBKascii = 0;
             NBKscan = 0;
-            keydown.SetAll(false);
+            //keydown.SetAll(false);
         }
 
         /*

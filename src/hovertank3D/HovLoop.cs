@@ -76,6 +76,12 @@ namespace Hovertank3DdotNet
 
         private short killedcount;
 
+        // as: Enemy stats
+        private short enemiesKilled;
+
+        // as: Enemy stats
+        private short totalEnemies;
+
         private short bordertime;
 
         //
@@ -156,7 +162,7 @@ namespace Hovertank3DdotNet
         =
         ===============
         */
-        private void FindFreeObj()
+        private short FindFreeObj()
         {
             short newIndex = 1;
             while(objlist[newIndex]._class != classtype.nothing && newIndex <= lastobjIndex)
@@ -175,6 +181,9 @@ namespace Hovertank3DdotNet
             _new.Clear();
 
             _new.think = BadThink;
+
+            // as: Return the index of the object that was found
+            return newIndex;
         }
 
         //==========================================================================
@@ -189,6 +198,10 @@ namespace Hovertank3DdotNet
         private void StartLevel(memptr plane1)
         {
             numrefugees = 0;
+
+            // as: Enemy stats
+            enemiesKilled = 0;
+            totalEnemies = 0;
 
             for(ushort y = 0; y < levelheader.height; y++)
             {
@@ -773,6 +786,14 @@ namespace Hovertank3DdotNet
                 PPrintInt(savedcount);
                 PPrint(_strings[Strings.BaseScreen3]); // as: string replacements
                 PPrintInt(killedcount);
+
+                // as: Enemy stats
+                py += 5;
+                PPrint(_strings[Strings.BaseScreen9]); // as: string replacements
+                PPrintInt(enemiesKilled);
+                PPrint(_strings[Strings.BaseScreen10]); // as: string replacements
+                PPrintInt(totalEnemies);
+
                 ushort topofs = screenofs;
 
                 py += 5;
@@ -848,7 +869,7 @@ namespace Hovertank3DdotNet
                     {
                         score -= 10000;
                         DrawScore();
-                        HealPlayer();
+                        HealPlayer(ARMORUPSND);
 #if !PROFILE
                         if(NBKascii != 27)
                         {
@@ -971,7 +992,8 @@ namespace Hovertank3DdotNet
 
                 if(keydown[0x57]) // DEBUG!
                 {
-                    DamagePlayer();
+                    // as: Support for extra sound effects
+                    DamagePlayer(TAKEDAMAGESND);
                     ClearKeys();
                 }
 

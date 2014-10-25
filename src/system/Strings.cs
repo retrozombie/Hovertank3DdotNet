@@ -166,9 +166,9 @@ namespace Hovertank3DdotNet
             // BaseScreen#
             "UFA Headquarters\n",
 
-            "Saved:",
+            "Saved: ", // as: Enemy stats, "Saved:"
 
-            "\nLost:",
+            ", Lost: ", // as: Enemy stats, "\nLost:"
 
             "\nSavior reward...",
 
@@ -220,6 +220,11 @@ namespace Hovertank3DdotNet
             ":",
 
             "\nPress the new key:",
+
+            // as: Enemy stats
+            "\nEnemies: ",
+            
+            " / ",
         };
 
         /// <summary>The string replacements.</summary>
@@ -398,8 +403,14 @@ namespace Hovertank3DdotNet
 
         public const int calibratekeys10 = 80;
 
+        // as: Enemy stats
+        public const int BaseScreen9 = 81;
+
+        // as: Enemy stats
+        public const int BaseScreen10 = 82;
+
         /// <summary>The base index for levnames.</summary>
-        private const int levnames_base = 81;
+        private const int levnames_base = 83;
 
         /// <summary>Returns the string index for the specified level.</summary>
         /// <param name="arrayIndex">The levname array index.</param>
@@ -423,7 +434,7 @@ namespace Hovertank3DdotNet
         #endregion
 
         /// <summary>The total number of string replacements.</summary>
-        public const int Count = 81 + Hovertank.NUMLEVELS + Hovertank.NUMLEVELS;
+        public const int Count = levnames_base + Hovertank.NUMLEVELS + Hovertank.NUMLEVELS;
 
         /// <summary>Identifiers for externalised game data.</summary>
         public static readonly string[] Identifiers =
@@ -520,6 +531,10 @@ namespace Hovertank3DdotNet
             "calibratekeys8",
             "calibratekeys9",
             "calibratekeys10",
+
+            // as: Enemy stats
+            "BaseScreen9",
+            "BaseScreen10",
 
             "levnames0",
             "levnames1",

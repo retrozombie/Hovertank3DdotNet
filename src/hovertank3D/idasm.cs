@@ -233,6 +233,13 @@ namespace Hovertank3DdotNet
             // Switches speaker output off
         }
 
+        /// <summary>Plays a sound.</summary>
+        /// <param name="playnum">The index of the sound to play.</param>
+        private void PlaySound(ushort playnum)
+        {
+            OldPlaySound(_sfxPlayer.SoundLinks[playnum]);
+        }
+
         /*
         ;===========
         ;
@@ -245,7 +252,7 @@ namespace Hovertank3DdotNet
         ;
         ;===========
         */
-        private void PlaySound(ushort playnum)
+        private void OldPlaySound(ushort playnum)
         {
             // as: Functional Description:
             // If sound was enabled this would begin playback of either
